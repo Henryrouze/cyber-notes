@@ -1,0 +1,34 @@
+1) What a VM is / Host vs Guest
+
+VM (Virtual Machine) = a fake computer inside your real computer.
+Host = your real PC, Guest = the OS running inside the VM.
+
+Why host VPN can affect the VM:
+With NAT (default), the VM’s internet is basically “routed through” the host.
+If host VPN is ON, the VM’s traffic often rides that same tunnel (depends on VPN + routes).
+So: host VPN can change where VM traffic goes.
+
+Why host antivirus/firewall can affect the VM:
+The VM is a file/process on the host (VirtualBoxVM.exe + virtual disk files).
+Host AV can slow/block VirtualBox networking, shared folders, or even quarantines suspicious tools you download in the VM.
+Also, host firewall can affect VirtualBox network adapters.
+
+2) NAT vs Bridged vs Host-only:
+
+NAT (default, safest internet)
+What it is: VM gets internet through your host like it’s “behind” your PC.
+Use it for: updates, downloading tools, browsing, VPN labs (often).
+Don’t use it for: letting other devices on your home network hit the VM (it won’t, easily).
+
+Bridged (VM becomes a real device on your Wi-Fi/LAN)
+What it is: VM gets an IP from your router and sits on the same network as your phone/laptop.
+Use it for: when you need other real devices to reach the VM.
+Warning: If your target VM is intentionally vulnerable (Metasploitable, DVWA, etc.), bridged is how you accidentally expose it to your home network. Bad habit.
+
+Host-only (private lab LAN between Host ↔ VMs)
+What it is: A fake private network only between your host and your VMs (and between VMs).
+Use it for: pentest LAN: attacker VM ↔ victim VMs, isolated from the internet.
+Key: Perfect for “attack stuff safely without it touching the real world.”
+
+Internal Network (VM↔VM only)
+Same as host-only but between VMs only.
