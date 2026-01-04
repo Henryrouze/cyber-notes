@@ -1,0 +1,22 @@
+1) Swap (Emergency RAM on disk)
+What it is: when RAM is tight, Linux moves memory pages to disk (swap space/file).
+Speed: trash compared to RAM.
+Purpose: avoid immediate crash, but performance tanks.
+✅ Symptoms of “swap hell”
+system becomes unusably slow
+high disk usage even when you’re not doing anything
+“free RAM” looks low but “available” is the important part
+
+What happens at the worst case:
+If RAM is critically low and swap can’t save you: OOM Killer steps in and murders a process (sometimes your browser, sometimes your terminal, sometimes your VPN) to keep the OS alive.
+
+How to check: (ubuntu)
+free -h
+vmstat 1 - In vmstat, watch these columns:
+si = swap in
+so = swap out
+If si/so are consistently > 0 → you’re actively swapping → slowdown city.
+
+2) Processes vs threads
+Process = a running program with its own memory; thread = a worker inside that process sharing the same memory.
+To see the process tree: Ubuntu: ps -ef --forest (or pstree -ap) , Windows: Task Manager
